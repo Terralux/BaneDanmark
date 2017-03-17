@@ -1,41 +1,41 @@
 # =============== #
 # Unity generated #
 # =============== #
-[Tt]emp/
-[Oo]bj/
-[Bb]uilds/
-[Ll]ibrary/
-[Ll]ibrary_ANDROID/
-[Ll]ibrary_PC/
-[Ll]ibrary_IOS/
-sysinfo.txt
-UnityVS/
-UnityVS.meta
-LightingData*
-ReflectionProbe*
-Assets/Scenes/Personal Scenes*
+Bane Danmark/[Tt]emp/
+Bane Danmark/[Oo]bj/
+Bane Danmark/[Bb]uilds/
+Bane Danmark/[Ll]ibrary/
+Bane Danmark/[Ll]ibrary_ANDROID/
+Bane Danmark/[Ll]ibrary_PC/
+Bane Danmark/[Ll]ibrary_IOS/
+Bane Danmark/sysinfo.txt
+Bane Danmark/UnityVS/
+Bane Danmark/UnityVS.meta
+Bane Danmark/LightingData*
+Bane Danmark/ReflectionProbe*
+Bane Danmark/Assets/Scenes/Personal Scenes*
 
 # ===================================== #
 # Visual Studio / MonoDevelop generated #
 # ===================================== #
-[Ee]xported[Oo]bj/
-*.userprefs
-*.csproj
-*.pidb
-*.suo
-*.sln*
-*.user
-*.unityproj
-*.booproj
+Bane Danmark/[Ee]xported[Oo]bj/
+Bane Danmark/*.userprefs
+Bane Danmark/*.csproj
+Bane Danmark/*.pidb
+Bane Danmark/*.suo
+Bane Danmark/*.sln*
+Bane Danmark/*.user
+Bane Danmark/*.unityproj
+Bane Danmark/*.booproj
 
 # ============
 # OS generated
 # ============
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
+Bane Danmark/.DS_Store
+Bane Danmark/.DS_Store?
+Bane Danmark/._*
+Bane Danmark/.Spotlight-V100
+Bane Danmark/.Trashes
+Bane Danmark/ehthumbs.db
 Thumbs.db
 Thumbs.db.meta
