@@ -21,11 +21,17 @@ public class RailRoadInputController : MonoBehaviour {
 		}
 
 		if (currentHeldObject != null) {
-			Collider[] targets = Physics.OverlapBox (transform.position, Vector3.one * 0.2f);
+			currentHeldObject.transform.position = transform.position;
+			currentHeldObject.transform.rotation = transform.rotation;
+
+			LayerMask layerMask = 1 << 8;
+			Collider[] targets = Physics.OverlapBox (transform.position, Vector3.one, transform.rotation, layerMask);
 			if (targets.Length > 0) {
+				
 				float minDistance = 1000f;
 				int count = 0;
 				int targetIndex = 0;
+
 				foreach (Collider c in targets) {
 					float testDistance = Vector3.Distance (c.transform.position, transform.position);
 					if (testDistance < minDistance) {
@@ -35,20 +41,23 @@ public class RailRoadInputController : MonoBehaviour {
 					count++;
 				}
 				currentHeldObject.transform.position = targets [targetIndex].transform.position;
+				currentHeldObject.transform.rotation = Quaternion.identity;
 			}
 
 			if (controller.GetHairTriggerDown ()) {
-				//place object
+				currentHeldObject = null;
 			}
 		}
 	}
 
 	void OnTriggerStay(Collider col){
 		if (col.CompareTag ("Toolbox")) {
-			if (controller.GetHairTriggerDown ()) {	
-				GameObject go = Instantiate (col.GetComponent<RailRoadToolbox> ().GetRailRoadPiece (), transform.position, transform.rotation);
-				go.transform.SetParent (transform);
-				currentHeldObject = go;
+			if (currentHeldObject == null) {
+				if (controller.GetHairTriggerDown ()) {	
+					GameObject go = Instantiate (col.GetComponent<RailRoadToolbox> ().GetRailRoadPiece (), transform.position, transform.rotation);
+					go.transform.SetParent (transform);
+					currentHeldObject = go;
+				}
 			}
 		}
 	}
