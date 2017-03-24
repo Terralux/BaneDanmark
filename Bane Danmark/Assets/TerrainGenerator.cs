@@ -22,6 +22,7 @@ public class TerrainGenerator : MonoBehaviour {
 	private List<GameObject> objectsToDelete = new List<GameObject> ();
 
 	void Start () {
+		DataMaster.tileSize = tileSize;
 		GenerateMap ();
 	}
 

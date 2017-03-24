@@ -10,6 +10,8 @@ public class RailRoadInputController : MonoBehaviour {
 
 	private GameObject currentHeldObject;
 
+	private bool isCurrentlyHoldingAnObject = false;
+
 	void Start() {
 		trackedObj = GetComponent<SteamVR_TrackedObject>();
 	}
@@ -20,32 +22,42 @@ public class RailRoadInputController : MonoBehaviour {
 			return;
 		}
 
-		if (currentHeldObject != null) {
+		if (isCurrentlyHoldingAnObject) {
 			currentHeldObject.transform.position = transform.position;
 			currentHeldObject.transform.rotation = transform.rotation;
 
-			LayerMask layerMask = 1 << 8;
-			Collider[] targets = Physics.OverlapBox (transform.position, Vector3.one, transform.rotation, layerMask);
-			if (targets.Length > 0) {
-				
-				float minDistance = 1000f;
-				int count = 0;
-				int targetIndex = 0;
+			Ray ray = new Ray (transform.position, Vector3.down);
+			RaycastHit hit;
 
-				foreach (Collider c in targets) {
-					float testDistance = Vector3.Distance (c.transform.position, transform.position);
-					if (testDistance < minDistance) {
-						minDistance = testDistance;
-						targetIndex = count;
+			if (Physics.Raycast (ray, out hit, 5f)) {
+				if (hit.collider.CompareTag ("Terrain")) {
+					currentHeldObject.transform.position = hit.collider.transform.position + Vector3.up * DataMaster.tileSize;
+
+					if(transform.rotation.eulerAngles.y < 45 && transform.rotation.eulerAngles.y > 0 || transform.rotation.eulerAngles.y > 315 && transform.rotation.eulerAngles.y < 360){
+						currentHeldObject.transform.rotation = Quaternion.Euler (new Vector3 (0, 0, 0));
 					}
-					count++;
+
+					if(transform.rotation.eulerAngles.y < 135 && transform.rotation.eulerAngles.y > 45){
+						currentHeldObject.transform.rotation = Quaternion.Euler (new Vector3 (0, 90, 0));
+					}
+
+					if(transform.rotation.eulerAngles.y < 225 && transform.rotation.eulerAngles.y > 135){
+						currentHeldObject.transform.rotation = Quaternion.Euler (new Vector3 (0, 180, 0));
+					}
+
+					if(transform.rotation.eulerAngles.y < 315 && transform.rotation.eulerAngles.y > 225){
+						currentHeldObject.transform.rotation = Quaternion.Euler (new Vector3 (0, 270, 0));
+					}
 				}
-				currentHeldObject.transform.position = targets [targetIndex].transform.position;
-				currentHeldObject.transform.rotation = Quaternion.identity;
 			}
 
 			if (controller.GetHairTriggerDown ()) {
-				currentHeldObject = null;
+				RailRoadContainer tempRRC = hit.collider.GetComponent<RailRoadContainer> ();
+				if (tempRRC.currentRailRoadPiece == null) {
+					tempRRC.currentRailRoadPiece = currentHeldObject;
+					currentHeldObject = null;
+					isCurrentlyHoldingAnObject = false;
+				}
 			}
 		}
 	}
@@ -55,10 +67,15 @@ public class RailRoadInputController : MonoBehaviour {
 			if (currentHeldObject == null) {
 				if (controller.GetHairTriggerDown ()) {	
 					GameObject go = Instantiate (col.GetComponent<RailRoadToolbox> ().GetRailRoadPiece (), transform.position, transform.rotation);
-					go.transform.SetParent (transform);
+					go.transform.localScale = Vector3.one * DataMaster.tileSize * 0.5f;
 					currentHeldObject = go;
+					Invoke ("GrabbedAnObject", 0.5f);
 				}
 			}
 		}
+	}
+
+	void GrabbedAnObject(){
+		isCurrentlyHoldingAnObject = true;
 	}
 }
