@@ -7,4 +7,9 @@ public class RailRoadContainer : MonoBehaviour {
 	[HideInInspector]
 	public GameObject currentRailRoadPiece;
 
+	public RailRoadContainer up;
+	public RailRoadContainer down;
+	public RailRoadContainer left;
+	public RailRoadContainer right;
+
 }
