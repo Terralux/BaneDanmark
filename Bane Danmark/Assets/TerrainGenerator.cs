@@ -22,6 +22,7 @@ public class TerrainGenerator : MonoBehaviour {
 	private List<GameObject> objectsToDelete = new List<GameObject> ();
 
 	void Start () {
+		DataMaster.tileSize = tileSize;
 		GenerateMap ();
 	}
 
@@ -48,6 +49,24 @@ public class TerrainGenerator : MonoBehaviour {
 
 					go.transform.localScale = Vector3.one * tileSize;
 					objectsToDelete.Add (go);
+				}
+			}
+		}
+
+		for (int i = 0; i < myMap.mapValues.GetLength(0); i++){
+			for (int j = 0; j < myMap.mapValues.GetLength(1); j++){
+				RailRoadContainer rrc = objectsToDelete[i * myMap.mapValues.GetLength(0) + j].GetComponent<RailRoadContainer>();
+				if (j + 1 < myMap.mapValues.GetLength(1)){
+					rrc.up = objectsToDelete[i * myMap.mapValues.GetLength(0) + j + 1].GetComponent<RailRoadContainer>();
+				}
+				if (j - 1 > -1){
+					rrc.down = objectsToDelete[i * myMap.mapValues.GetLength(0) + j - 1].GetComponent<RailRoadContainer>();
+				}
+				if (i - 1 > -1){
+					rrc.left = objectsToDelete[(i - 1) * myMap.mapValues.GetLength(0) + j].GetComponent<RailRoadContainer>();
+				}
+				if (i + 1 < myMap.mapValues.GetLength(0)){
+					rrc.right = objectsToDelete[(i + 1) * myMap.mapValues.GetLength(0) + j].GetComponent<RailRoadContainer>();
 				}
 			}
 		}
